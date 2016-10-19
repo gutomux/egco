@@ -1,6 +1,7 @@
-from folderTest import Odata_backend
+import subprocess
 
+rasp = "rasp0123423"
+email = "augusto.ferreira@sap.com"
 
-c = odata_backend()
-c.GET()
-
+args = ['./sendEmail.sh', rasp, email]
+p = subprocess.call(args)
