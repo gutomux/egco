@@ -8,10 +8,12 @@ DATA
 From: Augusto Ferreira <augusto.ferreira@sap.com>
 To: $1
 Date: $(date '+%a, %d %b %Y %H:%M:%S %z')
-Subject: $2
+Subject: Balanca Cheia
 Content-Type: text/plain; charset=UTF-8
                                                                                                                                                                                                
-$3
+$(hostname) esta quase cheia, passou dos 80kg.
+Por favor, fazer a coleta.
+
 .
 QUIT
 EOF
