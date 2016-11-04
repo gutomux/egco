@@ -12,27 +12,11 @@ class Scale(object):
 		except:
 			raise ValueError('scale did not initialize well')
 
-	def readOld(self):
-		stabilityCount = 0
-		with open('lastmeasures.txt', 'r') as f:
-			for line in f:
-				lastWeight = line
-		f.close()
-		fLastWeight = float(lastWeight)
-		fLastWeight = fLastWeight + 0.05
-		while True:
-			line = self.scalePort.readline()
-			parameters = line.split(",")
-			if (len(line) > 1 and line[0] == "0" and (float(parameters[1]) > fLastWeight)):
-				stabilityCount = stabilityCount + 1
-				if stabilityCount == 4: #We need to bypass the first and second reads because it was not stable
-					break
-		peso = float(parameters[1])
-		with open('lastmeasures.txt', 'a') as f:
-			f.write(str(peso))
-			f.write("\n")
-		f.close()
-		return float(peso)
+	def readStability(self):
+		line = self.scalePort.readline()
+		parameters = line.split(",")
+		stability = parameters[0]
+		return stability
 
 	def readTare(self):
 		serialCount = 0

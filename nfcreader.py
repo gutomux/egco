@@ -80,7 +80,7 @@ class Nfcreader(object):
 		#reader must be connected
 		id = self.readTag(self.reader)
 		idStr = str(id)
-		while(len(idStr) < 8):
+		while(len(idStr) < 8 or idStr == "None"):
 			#There was an error and the reader didnt work
 			id = self.readTag(self.reader)
 			idStr = str(id)

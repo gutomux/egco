@@ -4,6 +4,7 @@ import subprocess
 import configparser
 import ast
 import signal
+from backendConnection import *
 
 
 #read from the config file
@@ -28,6 +29,8 @@ while True:
 			userRFID = iRfid.getID()
 			#user = get_user(userRFID)
 			#print user
+			conn = CTDRequest()
+			conn.authenticateUser(userRFID, '1')
 			print userRFID
 		else:
 			print msgs[0]

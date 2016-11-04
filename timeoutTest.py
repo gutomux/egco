@@ -1,4 +1,5 @@
 import signal
+from stopwatch import stopwatch
 
 def handler(signum, frame):
 	print "Forever is over! hehe"
@@ -17,6 +18,6 @@ if __name__ == '__main__':
 	signal.signal(signal.SIGALRM, handler)
 	signal.alarm(10)
 	try:
-		loop_forever()
+		stopwatch(15)
 	except Exception, exc:
 		print exc
