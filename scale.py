@@ -34,7 +34,6 @@ class Scale(object):
 					raise ValueError('serial problem 02')
 
 			else:
-				print "here\n"
 				serialCount = 0
 				if(line[0] == "0"):
 					break

@@ -1,5 +1,7 @@
 from scale import Scale
 from nfcreader import Nfcreader
+from backendConnection import CTDRequest
+import sys
 import subprocess
 import configparser
 import ast
@@ -12,52 +14,65 @@ config = configparser.ConfigParser()
 
 config.read('config.ini') #file that contains definitions of the application
 
+deviceID = config.get("DEFAULT", "deviceID")
+contributionType = config.get("DEFAULT", "contributionType")
 emailsDev = ast.literal_eval(config.get("EMAILS", "developers"))
 emailsInfra = ast.literal_eval(config.get("EMAILS", "infraestructure"))
 
 msgs = ast.literal_eval(config.get("MESSAGES", "msgs"))
 
-success = 1
 
 while True:
-	if(success == 0):
-		break
 	success = 1
 	while(success == 1):
 		iRfid = Nfcreader()
-		if(iRfid.reader != -1):
+		conn = CTDRequest()
+		try:
 			userRFID = iRfid.getID()
-			#user = get_user(userRFID)
-			#print user
-			conn = CTDRequest()
-			conn.authenticateUser(userRFID, '1')
-			print userRFID
-		else:
+			
+		except KeyboardInterrupt:
+			print "interrupted by admin"
+			sys.exit()
+		except:
 			print msgs[0]
-			success = 0
+			sys.exit()
+
+		try:
+			response = conn.authenticateUser(userRFID, deviceID)
+			response = json.loads(response)
+			userName = response["d"]["name"]
+			iNumber = response["d"]["idemployee"]
+			if(userName != "Error."):
+				print "Hello " + iNumber
+			else:
+				print "Please, register yourself at the reception!"
+				print userRFID
+				break
+		except:
+			print "Connection problem!"
 			break
 
 		try:
 			iScale = Scale()
 		except ValueError as err:
 			print(err.args)
-			success = 0
-			break
+			sys.exit()
 
 		try:
 			tare = iScale.readTare()
 		except ValueError as err:
 			print(err.args)
-			success = 0
-			break
+			sys.exit()
 	
 		print tare	
 		try:
 			contribution = iScale.read()
 		except ValueError as err:
 			print(err.args)
-			success = 0
-			break
+			sys.exit()
+		except KeyboardInterrupt:
+			print "Interrupted by admin"
+			sys.exit()
 
 		contribution = contribution - tare
 		if (contribution <= 0.1):
@@ -65,8 +80,13 @@ while True:
 			break
 		
 		if(success == 1):#all worked good
-			print msgs[2]
 			print contribution
+			weight = str(int(contribution * 1000))
+			print weight
+			print msgs[2]
+			response = conn.makeContribution(weight,contributionType, iNumber)
+			response = json.loads(response)
+			print response
 			#send_contribution(contribution, user)
 
 		if (contribution >= 80):
