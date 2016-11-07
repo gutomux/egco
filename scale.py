@@ -29,7 +29,7 @@ class Scale(object):
 			#parameters = line.split(",")
 			if(len(line) < 1):
 				serialCount = serialCount + 1
-				if(serialCount == 8000):
+				if(serialCount == 80000):
 					print line
 					raise ValueError('serial problem 02')
 

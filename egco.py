@@ -43,7 +43,7 @@ while True:
 			userName = response["d"]["name"]
 			iNumber = response["d"]["idemployee"]
 			if(userName != "Error."):
-				print "Hello " + iNumber
+				print "Hello " + userName
 			else:
 				print "Please, register yourself at the reception!"
 				print userRFID
@@ -64,8 +64,9 @@ while True:
 			print(err.args)
 			sys.exit()
 	
-		print tare	
+		#print tare	
 		try:
+			print "Put your contribution"
 			contribution = iScale.read()
 		except ValueError as err:
 			print(err.args)
@@ -80,16 +81,19 @@ while True:
 			break
 		
 		if(success == 1):#all worked good
-			print contribution
+			print str(contribution) + "Kg"
 			weight = str(int(contribution * 1000))
-			print weight
-			print msgs[2]
-			response = conn.makeContribution(weight,contributionType, iNumber)
-			response = json.loads(response)
-			print response
+			#print weight
+			#print msgs[2]
+			confirmation = raw_input('Do you want to send your contribution? y/n: ')
+			if confirmation == 'y' or confirmation == 'Y':
+				response = conn.makeContribution(weight,contributionType, iNumber)
+				response = json.loads(response)
+				print "You donnated " + response["d"]["weight"] + " grams and received " + response["d"]["total"] + " points"
+				print "Thank you!"
 			#send_contribution(contribution, user)
 
-		if (contribution >= 80):
+		if (tare >= 80):
 			for mail in emailsDev:
 				args = ['./sendEmail.sh', mail]
 				subprocess.call(args)
