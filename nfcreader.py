@@ -28,7 +28,7 @@ class Nfcreader(object):
 		try:
 			self.reader = readers()[0]
 			self.logger.debug('Connected to reader: ' + str(self.reader))
-			print('Connected to reader: ' + str(self.reader))
+			#print('Connected to reader: ' + str(self.reader))
 		except:
 			self.reader = -1
 			self.logger.debug('Error, reader disconnected')

@@ -7,11 +7,19 @@ import urllib3
 import certifi
 from base64 import b64encode
 import json
+import configparser
+
+#read from the config file
+config = configparser.ConfigParser()
+
+config.read('config.ini')
+
+backendURL = config.get("DEFAULT", "backendURL")
+
 
 class CTDRequest:
     #URLS
-    urlCTD = 'https://slel00543677f.sle.sap.corp/sap/opu/odata/sap/zegodata_srv/'
-    theurlCust = 'https://slel00543677f.sle.sap.corp/sap/opu/odata/sap/ztrmtodata_srv_01/TasksSet/?$format=json'  # Raspberry Vhs
+    backendURL = 'https://slel00543677f.sle.sap.corp/sap/opu/odata/sap/zegodata_srv/'
 
                      
     userPass = b'ASA1_EGCO_GA:Palinka1'
@@ -29,7 +37,7 @@ class CTDRequest:
 
     def authenticateUser(self, rfid, device):
 	args = "NamesSet(rfid='" + rfid + "',device='" + device + "',idemployee=''')/?$format=json"
-	url = CTDRequest.urlCTD + args
+	url = CTDRequest.backendURL + args
 	#print url
         return self.__getURL(url)
 
@@ -58,8 +66,8 @@ class CTDRequest:
 
 	args = "UserCreate(rfid='" + rfID + "',device='" + deviceID + "',idemployee='" + iNumber + "')/?$format=json"
 	#encoded_args = urlencode({'rfid': rfID, 'device': deviceID, 'idemployee': iNumber})
-	url = CTDRequest.urlCTD + args
-	print "url: " + url
+	url = CTDRequest.backendURL + args
+	#print "url: " + url
 	r = self.http.request('GET', url, headers=headers)
    	return r.data
 
@@ -67,8 +75,8 @@ class CTDRequest:
 	userAndPass = b64encode(self.userPass).decode("ascii")
 	headers = { 'Authorization' : 'Basic %s' %  userAndPass }
 	args = "ContributionCreate(weight=" + weight + ",ctype='" + contributionTypeID + "',idemployee='" + iNumber + "')/?$format=json"
-	url = CTDRequest.urlCTD + args
-	print url
+	url = CTDRequest.backendURL + args
+	#print url
 	r = self.http.request('GET', url, headers=headers)
    	return r.data
 

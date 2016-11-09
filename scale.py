@@ -8,7 +8,7 @@ class Scale(object):
 	def __init__(self):
 		try:
 			self.scalePort = serial.Serial("/dev/ttyUSB0", baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, timeout=0)
-			print("Connected to: " + self.scalePort.portstr)
+			#print("Connected to: " + self.scalePort.portstr)
 		except:
 			raise ValueError('scale did not initialize well')
 

@@ -28,6 +28,7 @@ while True:
 		iRfid = Nfcreader()
 		conn = CTDRequest()
 		try:
+			print "\n\nPass your badge on the reader"
 			userRFID = iRfid.getID()
 			
 		except KeyboardInterrupt:
@@ -50,7 +51,7 @@ while True:
 				break
 		except:
 			print "Connection problem!"
-			break
+			sys.exit()
 
 		try:
 			iScale = Scale()
