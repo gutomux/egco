@@ -1,5 +1,4 @@
 import xml.etree.ElementTree as ET
-from Message import *
 import time
 from time import mktime
 from datetime import datetime
@@ -87,10 +86,6 @@ class CTDRequest:
             return dateTime
         
 
-#req = BCPRequest()
-#msgList = req.getCustomerMessages()
 
-#for msg in msgList:
-#    print (msg.messageNo)
 
 

@@ -25,6 +25,7 @@ msgs = ast.literal_eval(config.get("MESSAGES", "msgs"))
 while True:
 	success = 1
 	while(success == 1):
+		confirmation = "n"
 		iRfid = Nfcreader()
 		conn = CTDRequest()
 		try:
@@ -86,8 +87,9 @@ while True:
 			weight = str(int(contribution * 1000))
 			#print weight
 			#print msgs[2]
-			confirmation = raw_input('Do you want to send your contribution? y/n: ')
-			if confirmation == 'y' or confirmation == 'Y':
+			confirmation = "n"
+			print "Do you want to send your contribution? y/n: "
+			if(raw_input() == 'y'):
 				response = conn.makeContribution(weight,contributionType, iNumber)
 				response = json.loads(response)
 				print "You donnated " + response["d"]["weight"] + " grams and received " + response["d"]["total"] + " points"
