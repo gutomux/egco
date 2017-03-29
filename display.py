@@ -3,7 +3,7 @@ import time
 import Adafruit_CharLCD as LCD
 
 class Display(object):
-        """The scale class is used to comunicate with the lcd display."""
+        """The display class is used to comunicate with the lcd display."""
 
         def __init__(self):
                 try:
@@ -35,8 +35,3 @@ class Display(object):
                         raise ValueError('display show message problem')
         def clear(self):
                 self.lcd.clear()
-~
-~
-~
-~
-

@@ -1,3 +1,6 @@
-from stopwatch import stopwatch
+from display import Display
 
-stopwatch(10)
+iDisplay = Display()
+iDisplay.clear()
+iDisplay.displayPrint("Bernd, por favor\n")
+iDisplay.displayPrint("Me contrata!")
