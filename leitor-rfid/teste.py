@@ -1,4 +1,5 @@
-from leitor_tst import leitorTest
+from rfidTst import leitorTest
 
 test = leitorTest()
+test.read()
 

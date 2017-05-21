@@ -13,7 +13,7 @@ class leitorTest(object):
 
         def __init__(self):
                 try:
-                    GPIO.cleanup()
+                    #GPIO.cleanup()
                     # Inicia o módulo RC522.
                     LeitorRFID = MFRC522.MFRC522()
 
@@ -51,4 +51,6 @@ class leitorTest(object):
                     # encerra o programa.
                     GPIO.cleanup()
                     print('\nPrograma encerrado.')
+		except:
+			GPIO.cleanup()
                                                        

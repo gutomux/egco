@@ -1,13 +1,13 @@
 import json
 from backendConnection import CTDRequest
-from nfcreader import Nfcreader
 import sys
+from myGpio import MyGPIO
 
 
 x = CTDRequest()
-iRFID = Nfcreader()
+iRFID = MyGPIO()
 print "Pass your badge on the reader"
-rfidUser = iRFID.getID()
+rfidUser = iRFID.readTag()
 print rfidUser
 
 #status = x.authenticateUser(rfidUser,'1')
@@ -33,7 +33,7 @@ print rfidUser
 	
 
 
-userName = x.authenticateUser(rfidUser, "1")
+userName = x.authenticateUser(rfidUser, "3")
 
 if(len(userName) > 0):
 	print "Hello " + userName

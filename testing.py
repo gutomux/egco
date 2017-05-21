@@ -1,6 +1,14 @@
-from display import Display
+from scale import Scale
+from myGpio import MyGPIO
 
-iDisplay = Display()
-iDisplay.clear()
-iDisplay.displayPrint("Bernd, por favor\n")
-iDisplay.displayPrint("Me contrata!")
+iGPIO = MyGPIO()
+
+iGPIO.lcdPrint("Passe o cracha")
+
+uTag = iGPIO.readTag()
+
+print "leu o cracha" + uTag
+
+iGPIO.lcdPrint("\n" + uTag)
+
+
