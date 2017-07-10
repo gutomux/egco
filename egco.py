@@ -1,4 +1,5 @@
 from scale import Scale
+import time
 import sys
 import subprocess
 import configparser
@@ -15,9 +16,8 @@ config.read('config.ini') #file that contains definitions of the application
 deviceID = config.get("DEFAULT", "deviceID")
 contributionType = config.get("DEFAULT", "contributionType")
 emailsDev = ast.literal_eval(config.get("EMAILS", "developers"))
+emailUser = ast.literal_eval(config.get("EMAILS", "emailUser"))
 emailsInfra = ast.literal_eval(config.get("EMAILS", "infraestructure"))
-
-msgs = ast.literal_eval(config.get("MESSAGES", "msgs"))
 
 try:
 	iGpio = MyGPIO()
@@ -27,26 +27,14 @@ try:
 	conn = CTDRequest()
 except:
 	print "Connection problem"
-try:
-	iScale = Scale()
-except:
-	print "scale problem"
+#try:
+#	iScale = Scale()
+#except:
+#	print "scale problem"
 
 while True:
 	success = 1
 	while(success == 1):
-		#confirmation = "n"
-		#iDisplay = Display()
-		#conn = CTDRequest()
-		#try:
-		#        teste = Display()
-		#except:
-		#	print "aqui0"
-		#try:
-		#	leitorRFID = RFID()
-		#except:
-		#	print "aqui"
-		#	sys.exit()
 		try:
 			iGpio.lcdPrint("Pass your badge\non the reader")
 			userRFID = iGpio.readTag()
@@ -55,22 +43,34 @@ while True:
 			print "interrupted by admin"
 			sys.exit()
 		except:
+			iGpio.clear()
 			iGpio.lcdPrint("rfid problem")
 			sys.exit()
 
 		try:
+			iGpio.clear()
+			iGpio.lcdPrint("Authenticating..")
 			response = conn.authenticateUser(userRFID, deviceID)
 			response = json.loads(response)
 			userName = response["d"]["name"]
 			iNumber = response["d"]["idemployee"]
+			code = userRFID[:3]
 			iGpio.clear()
 			if(userName != "Error."):
-				iGpio.lcdPrint("Hello " + userName)
+				iGpio.lcdPrint("Hello " + userName[:8]+"\n")
 			else:
-				iGpio.lcdPrint("First use\nCreate a user")
-				print userRFID
+				iGpio.lcdPrint("First Use\nCode:" + code)
+				for mail in emailUser:	
+					args = ['./sendEmailUser.sh', mail, userRFID, code]
+					print args
+					subprocess.call(args)
+				#args = ['./sendEmail.sh', mail]
+                                #subprocess.call(args)
+
+				time.sleep(8.0)
 				break
 		except:
+			iGpio.clear()
 			iGpio.lcdPrint("Connection\nproblem!")
 			sys.exit()
 
@@ -80,11 +80,11 @@ while True:
 		#	teste.displayPrint(err.args)
 		#	sys.exit()
 
-		try:
-			tare = iScale.readTare()
-		except ValueError as err:
-			iGpio.lcdPrint(err.args)
-			sys.exit()
+		#try:
+		#	tare = iScale.readTare()
+		#except ValueError as err:
+		#	iGpio.lcdPrint(err.args)
+		#	sys.exit()
 	
 		#print tare	
 		try:

@@ -41,7 +41,12 @@ class MyGPIO(object):
 			print('\nEnding program by user interruption.')
 		except:
 			raise ValueError('READ PROBLEM')
-
+	def lcdBlink(self, status):
+		try:
+			self.lcd.blink(status)
+		except:
+			raise ValueError("display blink error")
+	
 	def lcdPrint(self, oMessage):
                 try:
                         self.lcd.message(oMessage)

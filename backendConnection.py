@@ -35,9 +35,8 @@ class CTDRequest:
          #print certifi.where()
 
     def authenticateUser(self, rfid, device):
-	args = "NamesSet(rfid='" + rfid + "',device='" + device + "')/?$format=json"
+	args = "NamesSet(rfid='" + rfid + "',device='" + device + "',idemployee='',name='',email='',startdate='',team='')/?$format=json"
 	url = CTDRequest.backendURL + args
-	#print url
         return self.__getURL(url)
 
 
