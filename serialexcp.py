@@ -7,7 +7,7 @@ import io
 try:
 
 	
-	port = serial.Serial("/dev/ttyUSB0", baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, timeout=0)
+	port = serial.Serial("/dev/serial0", baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, timeout=0)
 	print("connected to: " + port.portstr)
 	sio = io.TextIOWrapper(io.BufferedRWPair(port, port))
 	option = input("Coloque o material na balanca e depois pressione 1. \n ")

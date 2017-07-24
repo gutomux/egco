@@ -6,6 +6,7 @@ from backendConnection import *
 
 conn = CTDRequest()
 iGPIO = MyGPIO()
+iScale = Scale()
 
 while 1:
 	iGPIO.lcdPrint("Passe o cracha")
@@ -14,9 +15,12 @@ while 1:
 	response = json.loads(response)
 	userName = response["d"]["name"]
 	iNumber = response["d"]["idemployee"]
+	teste = response["d"]["name"].split(' ')
+	print teste[0]
 	print userName
 	print iNumber
 	print response
+	iScale.readTare()
 
 	time.sleep(3.0)
 	iGPIO.clear()
